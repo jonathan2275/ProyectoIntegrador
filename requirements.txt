@@ -6,3 +6,5 @@ reportlab == 3.5.59
 mysql-connector == 2.2.9
 requests == 2.25.1
 numpy == 1.19.5
+scikit-learn == 0.23.1
+pandas == 1.0.5
