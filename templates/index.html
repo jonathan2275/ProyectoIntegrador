@@ -1,0 +1,150 @@
+{% extends 'partials/base.html' %} {% block titulo %}Inicio{% endblock %} {% block contenido %}
+
+<!-- Page content -->
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col-xl-4 col-md-4">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Total Vendido</h5>
+                            <span class="h2 font-weight-bold mb-0">${{v[0]}}</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                <i class="ni ni-money-coins"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                        <span class="text-nowrap">Desde el inicio</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-4">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Stock Total</h5>
+                            <span class="h2 font-weight-bold mb-0">{{v[1]}}</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                <i class="ni ni-chart-pie-35"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                        <span class="text-nowrap">Todos los productos</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-4">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Cantidad Ventas</h5>
+                            <span class="h2 font-weight-bold mb-0">{{v[2]}}</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                <i class="ni ni-active-40 "></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-3 mb-0 text-sm">
+                        <span class="text-nowrap">Ventas totales</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-8">
+            <div class="card">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h6 class="text-uppercase text-muted ls-1 mb-1">Resumen</h6>
+                            <h5 class="h3 mb-0">10 Productos más vendidos</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Chart -->
+                    <div class="chart">
+                        <canvas id="chart-bars" class="chart-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="card">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h6 class="text-uppercase text-muted ls-1 mb-1">Producto</h6>
+                            <h5 class="h3 mb-0">Stock Bajo</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in producto %}
+                            <tr>
+                                <td>{{item[1]}}</td>
+                                <td>{{item[3]}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card border-0">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7979.520606524306!2d-78.567225577808!3d-0.30898652038705643!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x6a922ab646689771!2sSu%20papeler%C3%ADa!5e0!3m2!1ses!2sec!4v1611703069358!5m2!1ses!2sec"
+                    width="325" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <div class="card">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Mision</h3>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-black mt-0 mb-5" style="margin-left: 10px; margin-right: 10px; text-align: justify;">
+                    Brindar a nuestros clientes un mejor servicio y valor. Mejorar constantemente los plazos de entrega. ... Equipar a nuestros clientes con productos y servicios de alta calidad, manteniendo la honestidad, integridad y brindando un excelente servicio al
+                    cliente.
+                </p>
+                <div class="form-group" style="margin-left: 15px; margin-right: 15px;">
+                    <label class="mb-0">Notas</label>
+                    <textarea rows="4" class="form-control" placeholder="Algo por anotar..." name="acerca"></textarea>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,208 @@
+{% extends 'partials/base.html' %} {% block titulo %}Facturacion{% endblock %} {% block contenido %}
+
+
+<!--Contenido-->
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header border-0">
+                    {% if message %}
+                    <div class="alert {{alert}}" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>
+                    {% endif %}
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Facturas</h3>
+                        </div>
+                        <div class="col text-right">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newFactura">
+                                <i class="fa fa-plus"></i> Nueva
+                              </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col"><i class="ni ni-key-25"></i> ID</th>
+                                <th scope="col"><i class="ni ni-single-02"></i>Nombre</th>
+                                <th scope="col"><i class="ni ni-money-coins"></i>Total</th>
+                                <th scope="col"><i class="ni ni-shop"></i>Estado</th>
+                                <th scope="col"><i class="ni ni-settings"></i>Detalle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in factura %}
+                            <tr>
+                                <td>{{item[0]}}</td>
+                                <td>{{item[2]}}</td>
+                                <td>{{item[5]}}</td>
+                                <td>{{item[6]}}</td>
+                                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detalleFactura" onclick="detailsFactura({{item[0]}})">
+                                    <i class="fa fa-info-circle"></i> Detalle
+                                  </button>
+                                    <button type="button" class="btn btn-danger" onclick="pdfFactura({{item[0]}})"> 
+                                        <i class="fa fa-file-pdf"></i> PDF
+                                  </button></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Detalle Factura-->
+<div class="modal fade" id="detalleFactura" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Detalle Factura</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="didf">ID</label>
+                        <input type="text" class="form-control" name="didf" id="didf" disabled>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="dcedulaf">Cedula</label>
+                        <input type="text" class="form-control" name="dcedulaf" id="dcedulaf">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="dnombref">Nombre</label>
+                        <input type="text" class="form-control" name="dnombref" id="dnombref">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="dtelefonof">Telefono</label>
+                        <input type="text" class="form-control" name="dtelefonof" id="dtelefonof">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="ddireccionf">Direccion</label>
+                        <input type="text" class="form-control" name="ddireccionf" id="ddireccionf">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="destadof">Estado</label>
+                        <input type="text" class="form-control" name="destadof" id="destadof" value="Pagado" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="font-size: 10pt; font-weight: bold; ">
+                        <label>Productos</label>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="dtfactura">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Precio Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <p><label>Total:$ </label> <label id="totald">0.00</label></p>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Nueva Factura-->
+<div class="modal fade" id="newFactura" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Nueva Factura</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="cedulaf">Cedula</label>
+                        <input type="text" class="form-control" name="cedulaf" id="cedulaf">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="nombref">Nombre</label>
+                        <input type="text" class="form-control" name="nombref" id="nombref">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="telefonof">Telefono</label>
+                        <input type="text" class="form-control" name="telefonof" id="telefonof">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="direccionf">Direccion</label>
+                        <input type="text" class="form-control" name="direccionf" id="direccionf">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="estadof">Estado</label>
+                        <input type="text" class="form-control" name="estadof" id="estadof" value="Pagado" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="font-size: 10pt; font-weight: bold; ">
+                        <label>Productos</label>
+                        <input type="file" name="archivo" id="archivo" style="display: none;" onchange="cambio(event)">
+                        <button type="button" class="btn-sm btn-primary" id="btnAgregar" onclick="agregar()">
+                            Agregar
+                        </button>
+                        <div id="gifL2" style="display: none;">
+                            <img src="{{ url_for('static', filename='img/theme/30.gif') }}" alt="....">
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="tfactura">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Quitar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <p><label>Total:$ </label> <label id="totalf">0.00</label></p>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="saveFactura()"><i class="fa fa-save"></i> Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
